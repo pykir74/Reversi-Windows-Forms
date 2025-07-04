@@ -7,9 +7,10 @@ public class ReversiGame
     public const int Empty = 0;
     public const int Black = 1;
     public const int White = 2;
-    public const int Green = 4; // Optional: for highlighting valid moves
+    public const int Green = 4;
 
-    private string s_clickSound = "C:\\Users\\Patryk\\source\\repos\\reversi\\click.wav";
+    string s_clickSound;
+
 
     public int[,] Board { get; private set; } = new int[8, 8];
     public int CurrentPlayer { get; set; } = Black;
@@ -21,13 +22,14 @@ public class ReversiGame
         (1, -1), (1, 0), (1, 1)
     };
 
-    public ReversiGame()
+    public ReversiGame(string clickSound)
     {
-        // Ustawienie startowe
+        // starting grid
         Board[3, 3] = White;
         Board[3, 4] = Black;
         Board[4, 3] = Black;
         Board[4, 4] = White;
+        s_clickSound = clickSound;
     }
 
     public bool IsInsideBoard(int x, int y)
@@ -98,6 +100,7 @@ public class ReversiGame
 
         foreach (var (dx, dy) in directions)
         {
+            // cx = current checked x, cy = current checked y
             int cx = x + dx, cy = y + dy;
             var toFlip = new List<(int, int)>();
 

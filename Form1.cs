@@ -1,3 +1,4 @@
+using System.Drawing.Text;
 using System.Media;
 
 namespace reversi
@@ -11,10 +12,10 @@ namespace reversi
         int xOffset = 400;
         int yOffset = 70;
         int buttonSize = 110;
-        
-        string s_blackImg = "C:\\Users\\Patryk\\source\\repos\\reversi\\graphics\\reversi_black.png";
-        string s_whiteImg = "C:\\Users\\Patryk\\source\\repos\\reversi\\graphics\\reversi_white.png";
 
+        string s_blackImg;
+        string s_whiteImg;
+        string s_clickSound;
 
         int label_xOffset = 100;
         int label_yOffset = 200;
@@ -30,22 +31,33 @@ namespace reversi
 
         public Form1()
         {
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory; //????????
+            s_blackImg = Path.Combine(baseDir, "graphics", "reversi_black.png");
+            s_whiteImg = Path.Combine(baseDir, "graphics", "reversi_white.png");
+            s_clickSound = Path.Combine(baseDir, "sounds", "click.wav");
+
+            PrivateFontCollection fontCollection = FontLoader.LoadEmbeddedFont("reversi.TempleOS.ttf");
+            Font customFont = new Font(fontCollection.Families[0], 24);
+
             InitializeComponent();
+            
             buttons = new ReversiButton[rows, cols];
             blackScore = new Label
             {
                 Location = new Point(rows * buttonSize + xOffset + label_xOffset, label_yOffset),
                 Size = new Size(500, 100),
                 ForeColor = Color.Black,
-                Font = new Font("TempleOS", 24)
+                //Font = new Font("TempleOS", 24)
             };
             whiteScore = new Label
             {
                 Location = new Point(rows * buttonSize + xOffset + label_xOffset, label_yOffset * 2),
                 Size = new Size(500, 100),
                 ForeColor = Color.White,
-                Font = new Font("TempleOS", 24)
+                //Font = new Font("TempleOS", 24)
             };
+            blackScore.Font = customFont;
+            whiteScore.Font = customFont;
         }
         private void HideMenu()
         {
@@ -86,7 +98,7 @@ namespace reversi
             //buttons[4, 3].State = ReversiState.Black;
             //buttons[4, 4].State = ReversiState.White;
 
-            game = new ReversiGame();
+            game = new ReversiGame(s_clickSound);
 
             this.Controls.Add(blackScore);
             this.Controls.Add(whiteScore);
@@ -193,7 +205,7 @@ namespace reversi
 
 
 
-        // to debug
+        // debug from chatgpt
         public void SolveTheGrid(object sender, EventArgs e)
         {
             Random rand = new Random();

@@ -67,9 +67,6 @@
             title.Text = "REVERSI";
             title.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // timer1
-            // 
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
